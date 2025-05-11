@@ -16,3 +16,6 @@ This project is a sales dashboard for the fictional company of Northwind. The fi
   - note: could include a date attribute to visualize changes in category popularity/sales volume **done**
 - **Sales_Growth_Per_Category**: Joins Orders to Order_Details and Order_Details to Products on order_id and product_id respectively, then using a LAG() function to calculate growth in sales per month per category after joining Category to CTE through category_id
 - **Order_Decline_Quarterly**: First calculates quarterly sales through a join on order_id from Order and Order_Details, then finds the previous quarter's sales through a LAG() function. Afterwards, a case statement categorizes customers who have had an order value decline from a previous quarter, allowing a filter on customers with a declinging order value and using another case statement to map dates to quarter labels (Q1, Q2, ...)
+
+## Tableau Dashboard:
+![northwind_dashboard](https://github.com/user-attachments/assets/e3fc08d3-a01f-4e07-9dc3-d095ee3ce0b1)
