@@ -54,15 +54,14 @@ ORDER BY order_value DESC;
 
 -- percentage of total sales per product category
 
-CREATE VIEW salesh_per_category AS
+CREATE VIEW percentage_sales_per_category AS
 WITH sales_per_category AS (
     SELECT C.category_id, C.category_name,
            ROUND(CAST(SUM(OD.Unit_Price * OD.Quantity * (1- OD.discount)) AS NUMERIC), 2) 
 		AS total_sales
     FROM categories C, products P, order_details OD
 	WHERE C.category_id = P.category_id AND P.product_id = OD.product_id
-    GROUP BY C.category_id
-)
+    GROUP BY C.categ
 SELECT category_id, category_name, total_sales,
     ROUND((total_sales / SUM(total_sales) OVER ()) * 100, 2) AS sales_percentage
 FROM sales_per_category
@@ -94,8 +93,8 @@ CREATE VIEW order_decline_quarterly AS
 WITH quarterly_sales AS (
     SELECT o.customer_id, DATE_TRUNC('quarter', o.order_date) AS order_quarter,
         SUM(od.unit_price * od.quantity * (1 - od.discount)) AS quarterly_total
-    FROM orders o
-    JOIN order_details od ON o.order_id = od.order_id
+    FROM orders o, order_details od
+    WHERE o.order_id = od.order_id
     GROUP BY o.customer_id, order_quarter
 ),
 quarterly_with_lag AS (
@@ -108,11 +107,9 @@ quarterly_declines AS (
 		ROUND((prev_quarter_total - quarterly_total), 2) AS decline_amount,
         ROUND(
             CASE 
-                WHEN prev_quarter_total > 0 THEN 
-                    ((prev_quarter_total - quarterly_total) / prev_quarter_total) * 100
+                WHEN prev_quarter_total > 0 THEN ((prev_quarter_total - quarterly_total) / prev_quarter_total) * 100
                 ELSE NULL 
-            END, 2
-        ) AS decline_percentage
+            END, 2) AS decline_percentage
     FROM quarterly_with_lag
     WHERE quarterly_total < prev_quarter_total
 )
