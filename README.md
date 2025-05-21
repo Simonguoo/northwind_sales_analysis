@@ -18,4 +18,5 @@ This project is a sales dashboard for the fictional company of Northwind. The fi
 - **Order_Decline_Quarterly**: First calculates quarterly sales through a join on order_id from Order and Order_Details, then finds the previous quarter's sales through a LAG() function. Afterwards, a case statement categorizes customers who have had an order value decline from a previous quarter, allowing a filter on customers with a declinging order value and using another case statement to map dates to quarter labels (Q1, Q2, ...)
 
 ## Tableau Dashboard:
-![northwind_dashboard](https://github.com/user-attachments/assets/e3fc08d3-a01f-4e07-9dc3-d095ee3ce0b1)
+![northwind_dashboard](https://github.com/user-attachments/assets/625762b1-08aa-41c6-93a2-7301d13c5d7c)
+
